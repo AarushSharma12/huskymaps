@@ -58,7 +58,7 @@ public class ArrayDeque<E> implements Deque<E> {
         size += 1;
     }
 
-    @Override
+    // @Override
     public E removeFirst() {
         if (size == 0) {
             return null;
@@ -88,6 +88,7 @@ public class ArrayDeque<E> implements Deque<E> {
         }
         return result;
     }
+
 
     @Override
     public E get(int index) {
@@ -156,13 +157,14 @@ public class ArrayDeque<E> implements Deque<E> {
      *
      * @param capacity the length of the new element data array
      */
+
     @SuppressWarnings("unchecked")
     private void resize(int capacity) {
         E[] newData = (E[]) new Object[capacity];
-        int i = increment(front, size);
+        int i = increment(front, data.length);
         for (int newIndex = 0; newIndex < size; newIndex += 1) {
             newData[newIndex] = data[i];
-            i = increment(i, size);
+            i = increment(i, data.length);
         }
         front = newData.length - 1;
         back = size;
