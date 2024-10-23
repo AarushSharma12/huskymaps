@@ -22,15 +22,19 @@ public class SequentialSearchAutocomplete implements Autocomplete {
         elements = new ArrayList<>();
     }
 
-    @Override
+    // @Override
     public void addAll(Collection<? extends CharSequence> terms) {
-        // TODO: Replace with your code
-        throw new UnsupportedOperationException("Not implemented yet");
+        elements.addAll(terms);
     }
 
-    @Override
+    // @Override
     public List<CharSequence> allMatches(CharSequence prefix) {
-        // TODO: Replace with your code
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<CharSequence> result = new ArrayList<CharSequence>();
+        for (CharSequence element : elements) {
+            if (Autocomplete.isPrefixOf(prefix, element)) {
+                result.add(element);
+            }
+        }
+        return result;
     }
 }
