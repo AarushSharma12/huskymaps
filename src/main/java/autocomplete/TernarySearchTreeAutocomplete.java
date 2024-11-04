@@ -80,14 +80,14 @@ public class TernarySearchTreeAutocomplete implements Autocomplete {
         return x;
     }
 
-    @Override
+    // @Override
     public void addAll(Collection<? extends CharSequence> terms) {
         for (CharSequence term : terms){
             put(term);
         }
     }
 
-    @Override
+    // @Override
     public List<CharSequence> allMatches(CharSequence prefix) {
         if(prefix == null){
             throw new IllegalArgumentException("Prefix cannot be null");

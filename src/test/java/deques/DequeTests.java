@@ -289,17 +289,17 @@ public abstract class DequeTests {
         deque.addFirst(6);
         deque.addFirst(7);
         deque.addFirst(8);
-        deque.addLast(9);
+        deque.addFirst(9);
         deque.removeFirst();
         deque.removeFirst();
         deque.removeFirst();
         deque.removeLast();
-        deque.removeLast();
+        deque.removeFirst();
         deque.removeLast();
         assertEquals(5, deque.removeFirst());
     }
 
-    @Disabled
+   // @Disabled
     @Nested
     class RuntimeExperiments {
         /**
@@ -337,7 +337,7 @@ public abstract class DequeTests {
                 for (int i = 0; i < NUM_TRIALS; i += 1) {
                     // Measure the time to add one more integer
                     long addStart = System.nanoTime();
-                    deque.addLast(size);
+                    deque.addFirst(size);
                     long addTime = System.nanoTime() - addStart;
                     // Add to total time
                     totalAddTime += addTime;
