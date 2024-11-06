@@ -11,3 +11,4 @@ public class OptimizedHeapMinPQTests extends MinPQTests {
         return new OptimizedHeapMinPQ<>();
     }
 }
+
