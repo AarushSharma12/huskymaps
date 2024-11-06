@@ -8,6 +8,6 @@ package autocomplete;
 public class BinarySearchAutocompleteTests extends AutocompleteTests {
     @Override
     public Autocomplete createAutocomplete() {
-        return new BinarySearchAutocomplete();
+       return new BinarySearchAutocomplete();
     }
 }
