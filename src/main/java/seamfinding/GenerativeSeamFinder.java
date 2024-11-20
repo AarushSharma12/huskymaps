@@ -8,7 +8,7 @@ import seamfinding.energy.EnergyFunction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+// comment
 /**
  * Generative adjacency list graph single-source {@link ShortestPathSolver} implementation of the {@link SeamFinder}
  * interface.
