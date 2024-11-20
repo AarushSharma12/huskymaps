@@ -69,8 +69,13 @@ public class GenerativeSeamFinder implements SeamFinder {
         private final Node source = new Node() {
             @Override
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
-                // TODO: Replace with your code
-                throw new UnsupportedOperationException("Not implemented yet");
+                List<Edge<Node>> result = new ArrayList<>(picture.height());
+                for (int y = 0; y < picture.height(); y++) {
+                    Pixel to = new Pixel(0, y);
+                    double weight = f.apply(picture, 0, y);
+                    result.add(new Edge<>(this, to, weight));
+                }
+                return result;
             }
         };
         /**
@@ -79,8 +84,7 @@ public class GenerativeSeamFinder implements SeamFinder {
         private final Node sink = new Node() {
             @Override
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
-                // TODO: Replace with your code
-                throw new UnsupportedOperationException("Not implemented yet");
+                return List.of();
             }
         };
 
@@ -126,9 +130,26 @@ public class GenerativeSeamFinder implements SeamFinder {
 
             @Override
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
-                // TODO: Replace with your code
-                throw new UnsupportedOperationException("Not implemented yet");
+                List<Edge<Node>> neighbors = new ArrayList<>();
+
+                // Move right-middle neighbor
+                if (x < picture.width() - 1) {
+                    neighbors.add(new Edge<>(this, new Pixel(x + 1, y), f.apply(picture, x + 1, y)));
+                }
+
+                // Move right-up neighbor
+                if (x < picture.width() - 1 && y > 0) {
+                    neighbors.add(new Edge<>(this, new Pixel(x + 1, y - 1), f.apply(picture, x + 1, y - 1)));
+                }
+
+                // Move right-down neighbor
+                if (x < picture.width() - 1 && y < picture.height() - 1) {
+                    neighbors.add(new Edge<>(this, new Pixel(x + 1, y + 1), f.apply(picture, x + 1, y + 1)));
+                }
+
+                return neighbors;
             }
+
 
             @Override
             public String toString() {

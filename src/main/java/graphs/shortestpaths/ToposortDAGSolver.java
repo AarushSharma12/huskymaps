@@ -24,8 +24,25 @@ public class ToposortDAGSolver<V> implements ShortestPathSolver<V> {
     public ToposortDAGSolver(Graph<V> graph, V start) {
         edgeTo = new HashMap<>();
         distTo = new HashMap<>();
-        // TODO: Replace with your code
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        // Initialize the distance to all vertices as positive infinity except for the start vertex
+        for (V vertex : getAllVertices(graph, start)) {
+            distTo.put(vertex, Double.POSITIVE_INFINITY);
+        }
+        distTo.put(start, 0.0);
+
+        // Perform depth-first search to determine topological order in reverse postorder
+        List<V> reversePostOrder = new ArrayList<>();
+        Set<V> visited = new HashSet<>();
+        dfsPostOrder(graph, start, visited, reversePostOrder);
+        Collections.reverse(reversePostOrder);  // Reverse the list to get the correct topological order
+
+        // Relax each vertex in topological order
+        for (V vertex : reversePostOrder) {
+            for (Edge<V> edge : graph.neighbors(vertex)) {
+                relax(edge);
+            }
+        }
     }
 
     /**
@@ -37,8 +54,50 @@ public class ToposortDAGSolver<V> implements ShortestPathSolver<V> {
      * @param result  the destination for adding nodes.
      */
     private void dfsPostOrder(Graph<V> graph, V start, Set<V> visited, List<V> result) {
-        // TODO: Replace with your code
-        throw new UnsupportedOperationException("Not implemented yet");
+        // Mark the start vertex as visited
+        visited.add(start);
+
+        // Visit all unvisited neighbors recursively
+        for (Edge<V> edge : graph.neighbors(start)) {
+            V neighbor = edge.to;
+            if (!visited.contains(neighbor)) {
+                dfsPostOrder(graph, neighbor, visited, result);
+            }
+        }
+
+        // Add the current vertex to the result list after all its neighbors have been visited
+        result.add(start);
+    }
+
+    private Set<V> getAllVertices(Graph<V> graph, V start) {
+        Set<V> reachable = new HashSet<>();
+        Queue<V> queue = new LinkedList<>();
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            V current = queue.poll();
+            if (!reachable.contains(current)) {
+                reachable.add(current);
+                for (Edge<V> edge : graph.neighbors(current)) {
+                    queue.add(edge.to);
+                }
+            }
+        }
+
+        return reachable;
+    }
+
+    // Edge relaxation method
+    private void relax(Edge<V> edge) {
+        V from = edge.from;
+        V to = edge.to;
+        double weight = edge.weight;
+
+        // If a shorter path to the "to" vertex is found
+        if (distTo.get(from) + weight < distTo.get(to)) {
+            distTo.put(to, distTo.get(from) + weight);
+            edgeTo.put(to, edge);
+        }
     }
 
     @Override
