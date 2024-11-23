@@ -8,7 +8,6 @@ import seamfinding.energy.EnergyFunction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-// comment
 /**
  * Generative adjacency list graph single-source {@link ShortestPathSolver} implementation of the {@link SeamFinder}
  * interface.
@@ -132,19 +131,28 @@ public class GenerativeSeamFinder implements SeamFinder {
             public List<Edge<Node>> neighbors(Picture picture, EnergyFunction f) {
                 List<Edge<Node>> neighbors = new ArrayList<>();
 
-                // Move right-middle neighbor
                 if (x < picture.width() - 1) {
-                    neighbors.add(new Edge<>(this, new Pixel(x + 1, y), f.apply(picture, x + 1, y)));
-                }
+                    // Right-middle neighbor
+                    Pixel right = new Pixel(x + 1, y);
+                    double weight = f.apply(picture, x + 1, y);
+                    neighbors.add(new Edge<>(this, right, weight));
 
-                // Move right-up neighbor
-                if (x < picture.width() - 1 && y > 0) {
-                    neighbors.add(new Edge<>(this, new Pixel(x + 1, y - 1), f.apply(picture, x + 1, y - 1)));
-                }
+                    // Right-up neighbor
+                    if (y > 0) {
+                        Pixel rightUp = new Pixel(x + 1, y - 1);
+                        weight = f.apply(picture, x + 1, y - 1);
+                        neighbors.add(new Edge<>(this, rightUp, weight));
+                    }
 
-                // Move right-down neighbor
-                if (x < picture.width() - 1 && y < picture.height() - 1) {
-                    neighbors.add(new Edge<>(this, new Pixel(x + 1, y + 1), f.apply(picture, x + 1, y + 1)));
+                    // Right-down neighbor
+                    if (y < picture.height() - 1) {
+                        Pixel rightDown = new Pixel(x + 1, y + 1);
+                        weight = f.apply(picture, x + 1, y + 1);
+                        neighbors.add(new Edge<>(this, rightDown, weight));
+                    }
+                } else {
+                    // At the last column, connect to sink
+                    neighbors.add(new Edge<>(this, sink, 0));
                 }
 
                 return neighbors;
